@@ -67,3 +67,53 @@ def remove_punctuation_marks(cad):
     """ A function that removes punctuation marks from a word or a text.
     """
     return cad.translate(str.maketrans('', '', string.punctuation))
+
+# Nueva función para crear una lista limpia de palabras contenidas en la variable TEXT
+def clean_word_list(text):
+    # Variables vacías para lista y para acumular caracteres
+    word_list=[]
+    word=""
+    ''' Bucle para detectar palabras.
+
+        Recorre cada caracter de TEXT.
+
+        Si encuentra un espacio o salto de línea y la palabra acumulada no está vacía:
+            * Añade la palabra limpia a la lista
+            * Reinicia la variable 'word'
+
+        Si no es espacio ni salto de línea:
+            * Acumula el carácter en 'word'
+            * Continúa hasta encontrar el siguiente espacio o salto de línea
+
+        También elimina puntuación usando la función remove_punctuation_marks(cad).
+    '''
+    for character in text:
+        if (is_space(character)==True or is_newline(character)==True)and word!="":
+            word_list.append(remove_punctuation_marks(word))
+            word=""
+        else:
+            word+=character
+    ''' Este if sirve para añadir la última palabra que queda después de recorrer el bulce.
+        Al hacer pruebas vi que si el último caracter no era espacio o salto de línea, no se añadía la última palabra
+    '''
+    if word!="":
+        word_list.append(remove_punctuation_marks(word))
+    # La función devuelve una lista limpia de las palabras contenidas en la variable inicial
+    return word_list
+
+# Nueva función para crear una lista limpia de frases contenidas en la variable TEXT
+# Misma lógica que clean_word_list(text)
+def clean_sentence_list(text):
+    sentence_list=[]
+    sentence=""
+    for character in text:
+        if is_newline(character)==True and sentence!="":
+            sentence_list.append(sentence)
+            sentence=""
+        else:
+            sentence+=character
+    if sentence!="":
+        sentence_list.append(sentence)
+    return sentence_list
+
+# Ejercicio completado por el alumno FERNANDEZ RODRIGUEZ, Iñigo
